@@ -1,9 +1,30 @@
 def main():
 	book_path = "books/frankenstein.txt"
 	text = get_text(book_path)
-	print(get_word_count(text))
-	print(get_character_count(text))
+	dict_count = get_character_count(text)
+	num_words = get_word_count(text)
+	list_dict = create_list(dict_count)
 
+	print(f"--- Begin report of {book_path} ---")
+	print(f"{num_words} words found in the document")
+	print()
+
+	for item in list_dict:
+		if item["char"] == "\n":
+			print(f"The 'newline' character was found {item["num"]} times")
+		else:
+			print(f"The '{item["char"]}' character was found {item["num"]} times")
+	print("--- End report ---")
+	
+def sort_on(dict):
+	return dict["num"]
+
+def create_list(dict):
+	list_count = []
+	for count in dict:
+		list_count.append({"char": count, "num": dict[count]})
+	list_count.sort(reverse=True, key=sort_on)
+	return list_count
 
 def get_text(path):
 	with open(path) as f:
